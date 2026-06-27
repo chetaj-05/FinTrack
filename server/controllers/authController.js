@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
+const generateToken = require("../utils/generateToken");
 
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
@@ -35,11 +36,12 @@ const user = await User.create({
     email,
     password: hashedPassword
 });
+const token = generateToken(user._id);
 
-console.log(user);
  res.status(201).json({
     success: true,
     message: "User Registered Successfully",
+    token,
     user: {
         _id: user._id,
         name: user.name,
