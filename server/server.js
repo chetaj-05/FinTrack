@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 const dotenv = require("dotenv");
+const authRoutes = require("./routes/authRoutes");
 const connectDB = require("./config/db");
 const dns=require("dns");
 dns.setServers([
@@ -15,6 +16,8 @@ dotenv.config();
 console.log(process.env.MONGO_URI);
 
 connectDB();
+app.use(express.json());
+app.use("/api/auth",authRoutes);
 
 
 
