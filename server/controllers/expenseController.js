@@ -29,17 +29,27 @@ exports.addExpense = async (req, res) => {
     res.status(201).json(expense);
 
 };
-exports.getExpenses = async (req,res)=>{
+exports.getExpenses = async (req, res) => {
 
-    const expenses = await Expense.find({
+    const { search, category } = req.query;
 
-        user:req.user._id
+    const query = {
+        user: req.user._id
+    };
 
-    }).sort({
+    if (search) {
+        query.title = {
+            $regex: search,
+            $options: "i"
+        };
+    }
 
-        date:-1
+    if (category) {
+        query.category = category;
+    }
 
-    });
+    const expenses = await Expense.find(query)
+        .sort({ date: -1 });
 
     res.status(200).json(expenses);
 
