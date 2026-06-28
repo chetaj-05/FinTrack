@@ -33,6 +33,11 @@ exports.getExpenses = async (req, res) => {
 
     const { search, category } = req.query;
 
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+
+    const skip = (page - 1) * limit;
+
     const query = {
         user: req.user._id
     };
@@ -49,9 +54,20 @@ exports.getExpenses = async (req, res) => {
     }
 
     const expenses = await Expense.find(query)
-        .sort({ date: -1 });
+        .sort({ date: -1 })
+        .skip(skip)
+        .limit(limit);
 
-    res.status(200).json(expenses);
+    const totalExpenses = await Expense.countDocuments(query);
+
+    res.status(200).json({
+        page,
+        limit,
+        totalExpenses,
+        totalPages: Math.ceil(totalExpenses / limit),
+        count: expenses.length,
+        expenses
+    });
 
 };
 exports.deleteExpense = async (req, res) => {
