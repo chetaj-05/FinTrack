@@ -31,7 +31,7 @@ exports.addExpense = async (req, res) => {
 };
 exports.getExpenses = async (req, res) => {
 
-    const { search, category } = req.query;
+    const { search, category, sort } = req.query;
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
@@ -53,8 +53,26 @@ exports.getExpenses = async (req, res) => {
         query.category = category;
     }
 
+    let sortOption = { date: -1 };
+
+    if (sort === "newest") {
+        sortOption = { date: -1 };
+    }
+
+    if (sort === "oldest") {
+        sortOption = { date: 1 };
+    }
+
+    if (sort === "highest") {
+        sortOption = { amount: -1 };
+    }
+
+    if (sort === "lowest") {
+        sortOption = { amount: 1 };
+    }
+
     const expenses = await Expense.find(query)
-        .sort({ date: -1 })
+        .sort(sortOption)
         .skip(skip)
         .limit(limit);
 

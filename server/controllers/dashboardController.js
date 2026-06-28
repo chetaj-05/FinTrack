@@ -1,49 +1,47 @@
 const Expense = require("../models/Expense");
+const Income = require("../models/Income");
 
 exports.getDashboard = async (req, res) => {
 
-    const totalExpenses = await Expense.aggregate([
+   const userId = req.user._id;
 
-        {
-            $match: {
-                user: req.user._id
-            }
-        },
+    const income = await Income.find({ user: userId });
 
-        {
-            $group: {
-                _id: null,
-                total: {
-                    $sum: "$amount"
-                }
-            }
-        }
+    const expenses = await Expense.find({ user: userId });
 
-    ]);
+    const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
 
-    const recentTransactions = await Expense.find({
-        user: req.user._id
-    })
-    .sort({ date: -1 })
-    .limit(5);
+    const totalExpense = expenses.reduce((sum, item) => sum + item.amount, 0);
 
-    const totalTransactions = await Expense.countDocuments({
-        user: req.user._id
-    });
+    const balance = totalIncome - totalExpense;
+
+    const recentTransactions = [
+
+        ...income.map(item => ({
+            ...item.toObject(),
+            type: "income"
+        })),
+
+        ...expenses.map(item => ({
+            ...item.toObject(),
+            type: "expense"
+        }))
+
+    ]
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .slice(0, 5);
 
     res.status(200).json({
 
-        totalExpenses:
-            totalExpenses.length > 0
-                ? totalExpenses[0].total
-                : 0,
+        totalIncome,
 
-        totalTransactions,
+        totalExpense,
+
+        balance,
 
         recentTransactions
 
     });
-
 };
 exports.getCategoryAnalytics = async (req, res) => {
 
