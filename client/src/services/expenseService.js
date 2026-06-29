@@ -1,41 +1,34 @@
 import API from "./api";
 
 const getAuthConfig = () => ({
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-    },
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  },
 });
 
 export const getExpenses = async () => {
-    const response = await API.get("/expenses", getAuthConfig());
-    return response.data;
+  const response = await API.get("/expenses", getAuthConfig());
+  return response.data;
 };
 
 export const addExpense = async (expenseData) => {
-    const response = await API.post(
-        "/expenses",
-        expenseData,
-        getAuthConfig()
-    );
+  const response = await API.post("/expenses", expenseData, getAuthConfig());
 
-    return response.data;
+  return response.data;
 };
 
 export const deleteExpense = async (id) => {
-    const response = await API.delete(
-        `/expenses/${id}`,
-        getAuthConfig()
-    );
+  const response = await API.delete(`/expenses/${id}`, getAuthConfig());
 
-    return response.data;
+  return response.data;
 };
 
 export const updateExpense = async (id, expenseData) => {
-    const response = await API.put(
-        `/expenses/${id}`,
-        expenseData,
-        getAuthConfig()
-    );
+  const response = await API.put(
+    `/expenses/${id}`,
+    expenseData,
+    getAuthConfig(),
+  );
 
-    return response.data;
+  return response.data;
 };
