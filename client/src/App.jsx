@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -9,55 +9,57 @@ import Budget from "./pages/Budget";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Login />} />
 
-    return (
+      <Route path="/register" element={<Register />} />
 
-        <Routes>
-
-            <Route path="/" element={<Login />} />
-
-            <Route path="/register" element={<Register />} />
-
-           <Route
-      path="/dashboard"
+      <Route
+        path="/dashboard"
         element={
-        <ProtectedRoute>
-            <Dashboard />
-        </ProtectedRoute>
-    }
+          <ProtectedRoute>
+            <Layout>
+              <Dashboard />
+            </Layout>
+          </ProtectedRoute>
+        }
       />
 
-       <Route
-    path="/expenses"
-    element={
-        <ProtectedRoute>
-            <Expenses />
-        </ProtectedRoute>
-    }
-   />
+      <Route
+        path="/expenses"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Expenses />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
 
-     <Route
-    path="/income"
-    element={
-        <ProtectedRoute>
-            <Income />
-        </ProtectedRoute>
-    }
-     />
+      <Route
+        path="/income"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Income />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
 
-     <Route
-    path="/budget"
-    element={
-        <ProtectedRoute>
-            <Budget />
-        </ProtectedRoute>
-    }
-    />
-
-        </Routes>
-
-    );
-
+      <Route
+        path="/budget"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Budget />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
 }
 
 export default App;
