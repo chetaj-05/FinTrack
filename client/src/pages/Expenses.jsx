@@ -216,38 +216,46 @@ function Expenses() {
           </thead>
 
           <tbody>
-            {sortedExpenses.map((expense) => (
-              <tr key={expense._id} className="border-t hover:bg-gray-50">
-                <td className="p-4">{expense.title}</td>
-
-                <td className="p-4 font-semibold text-green-600">
-                  ₹ {expense.amount}
-                </td>
-
-                <td className="p-4">{expense.category}</td>
-
-                <td className="p-4 space-x-2">
-                  <button
-                    onClick={() => {
-                      setEditingId(expense._id);
-                      setTitle(expense.title);
-                      setAmount(expense.amount);
-                      setCategory(expense.category);
-                    }}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(expense._id)}
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+            {sortedExpenses.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="text-center py-10 text-gray-500">
+                  📭 No expenses found.
                 </td>
               </tr>
-            ))}
+            ) : (
+              sortedExpenses.map((expense) => (
+                <tr key={expense._id} className="border-t hover:bg-gray-50">
+                  <td className="p-4">{expense.title}</td>
+
+                  <td className="p-4 font-semibold text-green-600">
+                    ₹ {expense.amount}
+                  </td>
+
+                  <td className="p-4">{expense.category}</td>
+
+                  <td className="p-4 space-x-2">
+                    <button
+                      onClick={() => {
+                        setEditingId(expense._id);
+                        setTitle(expense.title);
+                        setAmount(expense.amount);
+                        setCategory(expense.category);
+                      }}
+                      className="bg-blue-500 text-white px-3 py-1 rounded"
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => handleDelete(expense._id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

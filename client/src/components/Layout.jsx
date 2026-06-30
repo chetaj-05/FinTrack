@@ -9,6 +9,7 @@ function Layout({ children }) {
 
     navigate("/");
   };
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="flex h-screen">
@@ -17,6 +18,9 @@ function Layout({ children }) {
         <h1 className="text-4xl font-extrabold mb-12 text-center">
           💰 FinTrack
         </h1>
+        <p className="text-center text-gray-300 mt-2 mb-8">
+          👋 {user?.name || user?.user?.name}
+        </p>
 
         <div className="flex flex-col gap-4">
           <NavLink
@@ -50,6 +54,26 @@ function Layout({ children }) {
             }
           >
             💵 Income
+          </NavLink>
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `p-3 rounded-lg transition ${
+                isActive ? "bg-indigo-600 text-white" : "hover:bg-slate-700"
+              }`
+            }
+          >
+            👤 Profile
+          </NavLink>
+          <NavLink
+            to="/reports"
+            className={({ isActive }) =>
+              `p-3 rounded-lg transition ${
+                isActive ? "bg-indigo-600 text-white" : "hover:bg-slate-700"
+              }`
+            }
+          >
+            📈 Reports
           </NavLink>
 
           <button

@@ -31,13 +31,15 @@ function SummaryCard({ title, amount }) {
 
   return (
     <div
-      className={`${bgColor} text-white rounded-2xl shadow-xl p-6 hover:scale-105 transition`}
+      className={`${bgColor} text-white rounded-2xl shadow-xl p-6 hover:scale-105 transition-all duration-300`}
     >
       <div className="flex justify-between items-center">
         <div>
           <p className="text-lg">{title}</p>
 
-          <h2 className="text-3xl font-bold mt-2">₹ {amount}</h2>
+          <h2 className="text-3xl font-bold mt-2">
+            ₹ {Number(amount).toLocaleString("en-IN")}
+          </h2>
         </div>
 
         <div className="text-5xl">{icon}</div>

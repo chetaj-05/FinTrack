@@ -7,6 +7,8 @@ import Expenses from "./pages/Expenses.jsx";
 import Income from "./pages/Income";
 import Budget from "./pages/Budget";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
+import Reports from "./pages/Reports";
 
 function App() {
   return (
@@ -25,7 +27,16 @@ function App() {
           </ProtectedRoute>
         }
       />
-
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Reports />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/expenses"
         element={
@@ -43,6 +54,16 @@ function App() {
           <ProtectedRoute>
             <Layout>
               <Income />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Profile />
             </Layout>
           </ProtectedRoute>
         }
