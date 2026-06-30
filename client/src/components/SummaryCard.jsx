@@ -1,9 +1,47 @@
 function SummaryCard({ title, amount }) {
-  return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 flex-1 min-w-[250px] hover:scale-105 transition duration-300">
-      <h2 className="text-gray-500 text-lg">{title}</h2>
+  let bgColor = "bg-indigo-600";
+  let icon = "💰";
 
-      <h1 className="text-5xl font-bold mt-4">₹ {amount}</h1>
+  switch (title) {
+    case "Income":
+      bgColor = "bg-green-600";
+      icon = "💵";
+      break;
+
+    case "Expense":
+      bgColor = "bg-red-600";
+      icon = "💸";
+      break;
+
+    case "Highest Expense":
+      bgColor = "bg-orange-500";
+      icon = "🔥";
+      break;
+
+    case "Highest Income":
+      bgColor = "bg-emerald-500";
+      icon = "🏆";
+      break;
+
+    case "Transactions":
+      bgColor = "bg-purple-600";
+      icon = "📊";
+      break;
+  }
+
+  return (
+    <div
+      className={`${bgColor} text-white rounded-2xl shadow-xl p-6 hover:scale-105 transition`}
+    >
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="text-lg">{title}</p>
+
+          <h2 className="text-3xl font-bold mt-2">₹ {amount}</h2>
+        </div>
+
+        <div className="text-5xl">{icon}</div>
+      </div>
     </div>
   );
 }

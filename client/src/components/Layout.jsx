@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Layout({ children }) {
   const navigate = useNavigate();
@@ -19,26 +19,38 @@ function Layout({ children }) {
         </h1>
 
         <div className="flex flex-col gap-4">
-          <Link
+          <NavLink
             to="/dashboard"
-            className="p-3 rounded-lg hover:bg-slate-700 transition"
+            className={({ isActive }) =>
+              `p-3 rounded-lg transition ${
+                isActive ? "bg-indigo-600 text-white" : "hover:bg-slate-700"
+              }`
+            }
           >
             🏠 Dashboard
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/expenses"
-            className="p-3 rounded-lg hover:bg-slate-700 transition"
+            className={({ isActive }) =>
+              `p-3 rounded-lg transition ${
+                isActive ? "bg-indigo-600 text-white" : "hover:bg-slate-700"
+              }`
+            }
           >
             💸 Expenses
-          </Link>
+          </NavLink>
 
-          <Link
+          <NavLink
             to="/income"
-            className="p-3 rounded-lg hover:bg-slate-700 transition"
+            className={({ isActive }) =>
+              `p-3 rounded-lg transition ${
+                isActive ? "bg-indigo-600 text-white" : "hover:bg-slate-700"
+              }`
+            }
           >
             💵 Income
-          </Link>
+          </NavLink>
 
           <button
             onClick={logout}

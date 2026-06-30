@@ -1,60 +1,77 @@
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
-import { useNavigate } from "react-router-dom";
-
+import toast from "react-hot-toast";
 
 function Login() {
   const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-        try {
-            const data = await login(email, password);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-           localStorage.setItem("token", data.token);
+    try {
+      const data = await login({ email, password });
 
-            localStorage.setItem("user", JSON.stringify(data.user));
-            console.log(localStorage.getItem("token"));
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data));
 
+      toast.success("Welcome Back 👋");
 
-           navigate("/dashboard");
-        } catch (error) {
-            alert(error.response.data.message);
-        }
-    };
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Login Failed");
+    }
+  };
 
-    return (
-        <div>
-            <h1>Login</h1>
+  return (
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 to-purple-600">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 w-[400px]">
+        <h1 className="text-4xl font-bold text-center mb-2">Welcome Back</h1>
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Enter Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+        <p className="text-gray-500 text-center mb-8">
+          Login to continue managing your finances
+        </p>
 
-                <br />
-                <br />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full border p-3 rounded-lg"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-                <input
-                    type="password"
-                    placeholder="Enter Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full border p-3 rounded-lg"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-                <br />
-                <br />
+          <button
+            type="submit"
+            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold"
+          >
+            Login
+          </button>
+        </form>
 
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    );
+        <p className="text-center mt-6">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="text-indigo-600 font-semibold hover:underline"
+          >
+            Register
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

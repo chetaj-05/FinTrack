@@ -5,6 +5,7 @@ import {
   deleteIncome,
   updateIncome,
 } from "../services/incomeService";
+import toast from "react-hot-toast";
 
 function Income() {
   const [title, setTitle] = useState("");
@@ -21,10 +22,10 @@ function Income() {
   const fetchIncome = async () => {
     try {
       const data = await getIncome();
-      console.log(data);
       setIncome(data);
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     }
   };
   const handleSubmit = async (e) => {
@@ -37,12 +38,14 @@ function Income() {
           amount,
           source,
         });
+        toast.success("Income Updated");
       } else {
         await addIncome({
           title,
           amount,
           source,
         });
+        toast.success("Income Added Successfully");
       }
 
       setTitle("");
@@ -53,82 +56,118 @@ function Income() {
       fetchIncome();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     }
   };
   const handleDelete = async (id) => {
     try {
       await deleteIncome(id);
-
+      toast.success("Income Deleted");
       fetchIncome();
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     }
   };
 
   return (
     <div>
-      <h1>Income</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+      <h1 className="text-4xl font-bold mb-8">💵 Income</h1>
+      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <form onSubmit={handleSubmit}>
+          <input
+            className="border rounded-lg p-3 w-full"
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <input
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        />
+          <input
+            className="border rounded-lg p-3 w-full"
+            type="number"
+            placeholder="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <input
-          type="text"
-          placeholder="Source"
-          value={source}
-          onChange={(e) => setSource(e.target.value)}
-        />
+          <input
+            className="border rounded-lg p-3 w-full"
+            type="text"
+            placeholder="Source"
+            value={source}
+            onChange={(e) => setSource(e.target.value)}
+          />
 
-        <br />
-        <br />
+          <br />
+          <br />
 
-        <button type="submit">
-          {editingId ? "Update Income" : "Add Income"}
-        </button>
-      </form>
-
+          <button
+            type="submit"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg mt-4"
+          >
+            {editingId ? "Update Income" : "Add Income"}
+          </button>
+        </form>
+      </div>
       <hr />
 
-      {income.map((item) => (
-        <div key={item._id}>
-          <h3>{item.title}</h3>
+      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="p-4 text-left">Title</th>
 
-          <p>₹ {item.amount}</p>
+              <th className="p-4 text-left">Amount</th>
 
-          <p>{item.source}</p>
-          <button onClick={() => handleDelete(item._id)}>Delete</button>
-          <button
-            onClick={() => {
-              setEditingId(item._id);
+              <th className="p-4 text-left">Source</th>
 
-              setTitle(item.title);
+              <th className="p-4 text-left">Actions</th>
+            </tr>
+          </thead>
 
-              setAmount(item.amount);
+          <tbody>
+            {income.map((item) => (
+              <tr key={item._id} className="border-t hover:bg-gray-50">
+                <td className="p-4">{item.title}</td>
 
-              setSource(item.source);
-            }}
-          >
-            Edit
-          </button>
-        </div>
-      ))}
+                <td className="p-4 font-semibold text-green-600">
+                  ₹ {item.amount}
+                </td>
+
+                <td className="p-4">{item.source}</td>
+
+                <td className="p-4 space-x-2">
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                    onClick={() => {
+                      setEditingId(item._id);
+                      setTitle(item.title);
+                      setAmount(item.amount);
+                      setSource(item.source);
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded"
+                    onClick={() => handleDelete(item._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -6,8 +6,8 @@ const getAuthConfig = () => ({
   },
 });
 
-export const getExpenses = async () => {
-  const response = await API.get("/expenses", getAuthConfig());
+export const getExpenses = async (page = 1) => {
+  const response = await API.get(`/expenses?page=${page}`, getAuthConfig());
   return response.data;
 };
 

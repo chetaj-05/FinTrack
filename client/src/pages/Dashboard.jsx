@@ -6,6 +6,7 @@ import {
 import SummaryCard from "../components/SummaryCard";
 import IncomeExpenseChart from "../components/charts/IncomeExpenseChart";
 import ExpensePieChart from "../components/charts/ExpensePieChart";
+import { ClipLoader } from "react-spinners";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
@@ -31,9 +32,9 @@ function Dashboard() {
   }, []);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <h2>Welcome, {user.name} 👋</h2>
+    <div className="max-w-7xl mx-auto p-8">
+      <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
+      <h2 className="text-gray-500 mb-8">Welcome, {user.name} 👋</h2>
 
       {dashboardData ? (
         <>
@@ -43,6 +44,22 @@ function Dashboard() {
             <SummaryCard title="Income" amount={dashboardData.totalIncome} />
 
             <SummaryCard title="Expense" amount={dashboardData.totalExpense} />
+          </div>
+          <div className="grid grid-cols-3 gap-8 mt-6 mb-10">
+            <SummaryCard
+              title="Highest Expense"
+              amount={dashboardData.highestExpense}
+            />
+
+            <SummaryCard
+              title="Highest Income"
+              amount={dashboardData.highestIncome}
+            />
+
+            <SummaryCard
+              title="Transactions"
+              amount={dashboardData.totalTransactions}
+            />
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mb-10">
@@ -58,26 +75,41 @@ function Dashboard() {
             </div>
           </div>
 
-          <h2>Recent Transactions</h2>
+          <h2 className="text-2xl font-bold mb-5 mt-8">Recent Transactions</h2>
 
           {dashboardData.recentTransactions.map((transaction) => (
             <div
               key={transaction._id}
-              className="bg-white rounded-xl shadow-md p-5 mb-5"
+              className="bg-white rounded-xl shadow-md p-5 mb-4 hover:shadow-xl transition"
             >
               <h3 className="text-xl font-semibold">{transaction.title}</h3>
-              <p className="text-green-600 font-bold text-lg">
+              <p
+                className={`font-bold text-lg ${
+                  transaction.type === "income"
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
                 ₹ {transaction.amount}
               </p>
 
               <p className="text-gray-500">
                 {transaction.category || transaction.source}
               </p>
+              <span
+                className={`inline-block mt-2 px-3 py-1 rounded-full text-sm text-white ${
+                  transaction.type === "income" ? "bg-green-500" : "bg-red-500"
+                }`}
+              >
+                {transaction.type}
+              </span>
             </div>
           ))}
         </>
       ) : (
-        <h2>Loading...</h2>
+        <div className="flex justify-center mt-20">
+          <ClipLoader size={45} color="#4f46e5" />
+        </div>
       )}
     </div>
   );
