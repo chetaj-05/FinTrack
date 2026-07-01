@@ -6,8 +6,17 @@ const getAuthConfig = () => ({
   },
 });
 
-export const getExpenses = async (page = 1) => {
-  const response = await API.get(`/expenses?page=${page}`, getAuthConfig());
+export const getExpenses = async (
+  page = 1,
+  search = "",
+  category = "",
+  sort = "newest",
+) => {
+  const response = await API.get(
+    `/expenses?page=${page}&search=${search}&category=${category}&sort=${sort}`,
+    getAuthConfig(),
+  );
+
   return response.data;
 };
 
