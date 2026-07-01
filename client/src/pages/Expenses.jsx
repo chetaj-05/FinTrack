@@ -202,62 +202,64 @@ function Expenses() {
       <hr />
 
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-4 text-left">Title</th>
-
-              <th className="p-4 text-left">Amount</th>
-
-              <th className="p-4 text-left">Category</th>
-
-              <th className="p-4 text-left">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {sortedExpenses.length === 0 ? (
+        <div className="overflow-x-auto">
+          <table className="min-w-full">
+            <thead className="bg-gray-100">
               <tr>
-                <td colSpan="4" className="text-center py-10 text-gray-500">
-                  📭 No expenses found.
-                </td>
+                <th className="p-4 text-left">Title</th>
+
+                <th className="p-4 text-left">Amount</th>
+
+                <th className="p-4 text-left">Category</th>
+
+                <th className="p-4 text-left">Actions</th>
               </tr>
-            ) : (
-              sortedExpenses.map((expense) => (
-                <tr key={expense._id} className="border-t hover:bg-gray-50">
-                  <td className="p-4">{expense.title}</td>
+            </thead>
 
-                  <td className="p-4 font-semibold text-green-600">
-                    ₹ {expense.amount}
-                  </td>
-
-                  <td className="p-4">{expense.category}</td>
-
-                  <td className="p-4 space-x-2">
-                    <button
-                      onClick={() => {
-                        setEditingId(expense._id);
-                        setTitle(expense.title);
-                        setAmount(expense.amount);
-                        setCategory(expense.category);
-                      }}
-                      className="bg-blue-500 text-white px-3 py-1 rounded"
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() => handleDelete(expense._id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded"
-                    >
-                      Delete
-                    </button>
+            <tbody>
+              {sortedExpenses.length === 0 ? (
+                <tr>
+                  <td colSpan="4" className="text-center py-10 text-gray-500">
+                    📭 No expenses found.
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                sortedExpenses.map((expense) => (
+                  <tr key={expense._id} className="border-t hover:bg-gray-50">
+                    <td className="p-4">{expense.title}</td>
+
+                    <td className="p-4 font-semibold text-green-600">
+                      ₹ {expense.amount}
+                    </td>
+
+                    <td className="p-4">{expense.category}</td>
+
+                    <td className="p-4 space-x-2">
+                      <button
+                        onClick={() => {
+                          setEditingId(expense._id);
+                          setTitle(expense.title);
+                          setAmount(expense.amount);
+                          setCategory(expense.category);
+                        }}
+                        className="bg-blue-500 text-white px-3 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        onClick={() => handleDelete(expense._id)}
+                        className="bg-red-500 text-white px-3 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
       <div className="flex justify-center items-center gap-4 mt-8">
         <button

@@ -9,6 +9,7 @@ import Budget from "./pages/Budget";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Profile from "./pages/Profile";
 import Reports from "./pages/Reports";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

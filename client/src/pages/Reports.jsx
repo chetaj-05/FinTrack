@@ -30,7 +30,7 @@ function Reports() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className="grid  grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-green-600 text-white rounded-xl p-6">
           <h3 className="text-lg">Highest Income Month</h3>
 

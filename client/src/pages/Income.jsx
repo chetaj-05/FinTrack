@@ -119,54 +119,56 @@ function Income() {
       <hr />
 
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-4 text-left">Title</th>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-4 text-left">Title</th>
 
-              <th className="p-4 text-left">Amount</th>
+                <th className="p-4 text-left">Amount</th>
 
-              <th className="p-4 text-left">Source</th>
+                <th className="p-4 text-left">Source</th>
 
-              <th className="p-4 text-left">Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {income.map((item) => (
-              <tr key={item._id} className="border-t hover:bg-gray-50">
-                <td className="p-4">{item.title}</td>
-
-                <td className="p-4 font-semibold text-green-600">
-                  ₹ {item.amount}
-                </td>
-
-                <td className="p-4">{item.source}</td>
-
-                <td className="p-4 space-x-2">
-                  <button
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                    onClick={() => {
-                      setEditingId(item._id);
-                      setTitle(item.title);
-                      setAmount(item.amount);
-                      setSource(item.source);
-                    }}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded"
-                    onClick={() => handleDelete(item._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+                <th className="p-4 text-left">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {income.map((item) => (
+                <tr key={item._id} className="border-t hover:bg-gray-50">
+                  <td className="p-4">{item.title}</td>
+
+                  <td className="p-4 font-semibold text-green-600">
+                    ₹ {item.amount}
+                  </td>
+
+                  <td className="p-4">{item.source}</td>
+
+                  <td className="p-4 space-x-2">
+                    <button
+                      className="bg-blue-500 text-white px-3 py-1 rounded"
+                      onClick={() => {
+                        setEditingId(item._id);
+                        setTitle(item.title);
+                        setAmount(item.amount);
+                        setSource(item.source);
+                      }}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

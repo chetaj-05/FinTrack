@@ -35,7 +35,7 @@ function Dashboard() {
     <div className="space-y-8">
       <div className="max-w-7xl mx-auto p-8">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold">Dashboard</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">Dashboard</h1>
 
           <p className="text-gray-500 mt-2">
             Welcome back,{" "}
@@ -44,7 +44,7 @@ function Dashboard() {
         </div>
         {dashboardData ? (
           <>
-            <div className="grid grid-cols-3 gap-8 mt-8 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 mb-10">
               <SummaryCard title="Balance" amount={dashboardData.balance} />
 
               <SummaryCard title="Income" amount={dashboardData.totalIncome} />
@@ -54,7 +54,7 @@ function Dashboard() {
                 amount={dashboardData.totalExpense}
               />
             </div>
-            <div className="grid grid-cols-3 gap-8 mt-6 mb-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-6 mb-10">
               <SummaryCard
                 title="Highest Expense"
                 amount={dashboardData.highestExpense}
@@ -71,7 +71,7 @@ function Dashboard() {
               />
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
               <div className="bg-white rounded-xl shadow-md p-6">
                 <IncomeExpenseChart
                   income={dashboardData.totalIncome}
