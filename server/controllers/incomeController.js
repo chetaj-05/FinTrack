@@ -23,15 +23,13 @@ exports.addIncome = async (req, res) => {
 
   res.status(201).json(income);
 };
-
 exports.getIncome = async (req, res) => {
   const income = await Income.find({
     user: req.user._id,
-  }).sort({ date: -1 });
+  });
 
-  res.status(200).json(income);
+  res.json(income);
 };
-
 exports.deleteIncome = async (req, res) => {
   const income = await Income.findById(req.params.id);
 
