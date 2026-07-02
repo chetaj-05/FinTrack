@@ -642,3 +642,710 @@
 // }
 
 // export default Expenses;
+// import { useEffect, useState } from "react";
+// import {
+//   getIncome,
+//   addIncome,
+//   deleteIncome,
+//   updateIncome,
+// } from "../services/incomeService";
+// import toast from "react-hot-toast";
+
+// function Income() {
+//   const [title, setTitle] = useState("");
+//   const [amount, setAmount] = useState("");
+//   const [source, setSource] = useState("");
+
+//   const [income, setIncome] = useState([]);
+//   const [editingId, setEditingId] = useState(null);
+
+//   useEffect(() => {
+//     fetchIncome();
+//   }, []);
+
+//   const fetchIncome = async () => {
+//     try {
+//       const data = await getIncome();
+//       setIncome(data);
+//     } catch (error) {
+//       console.log(error);
+//       toast.error("Something went wrong");
+//     }
+//   };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       if (editingId) {
+//         await updateIncome(editingId, {
+//           title,
+//           amount,
+//           source,
+//         });
+//         toast.success("Income Updated");
+//       } else {
+//         await addIncome({
+//           title,
+//           amount,
+//           source,
+//         });
+//         toast.success("Income Added Successfully");
+//       }
+
+//       setTitle("");
+//       setAmount("");
+//       setSource("");
+//       setEditingId(null);
+
+//       fetchIncome();
+//     } catch (error) {
+//       console.log(error);
+//       toast.error("Something went wrong");
+//     }
+//   };
+//   const handleDelete = async (id) => {
+//     try {
+//       await deleteIncome(id);
+//       toast.success("Income Deleted");
+//       fetchIncome();
+//     } catch (error) {
+//       console.log(error);
+//       toast.error("Something went wrong");
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <h1 className="text-4xl font-bold mb-8">💵 Income</h1>
+//       <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+//         <form onSubmit={handleSubmit}>
+//           <input
+//             className="border rounded-lg p-3 w-full"
+//             type="text"
+//             placeholder="Title"
+//             value={title}
+//             onChange={(e) => setTitle(e.target.value)}
+//           />
+
+//           <br />
+//           <br />
+
+//           <input
+//             className="border rounded-lg p-3 w-full"
+//             type="number"
+//             placeholder="Amount"
+//             value={amount}
+//             onChange={(e) => setAmount(e.target.value)}
+//           />
+
+//           <br />
+//           <br />
+
+//           <input
+//             className="border rounded-lg p-3 w-full"
+//             type="text"
+//             placeholder="Source"
+//             value={source}
+//             onChange={(e) => setSource(e.target.value)}
+//           />
+
+//           <br />
+//           <br />
+
+//           <button
+//             type="submit"
+//             className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg mt-4"
+//           >
+//             {editingId ? "Update Income" : "Add Income"}
+//           </button>
+//         </form>
+//       </div>
+//       <hr />
+
+//       <div className="bg-white rounded-xl shadow-md overflow-hidden">
+//         <div className="overflow-x-auto">
+//           <table className="w-full">
+//             <thead className="bg-gray-100">
+//               <tr>
+//                 <th className="p-4 text-left">Title</th>
+
+//                 <th className="p-4 text-left">Amount</th>
+
+// //                 <th className="p-4 text-left">Source</th>
+
+// //                 <th className="p-4 text-left">Actions</th>
+// //               </tr>
+// //             </thead>
+
+// //             <tbody>
+// //               {income.map((item) => (
+// //                 <tr key={item._id} className="border-t hover:bg-gray-50">
+// //                   <td className="p-4">{item.title}</td>
+
+// //                   <td className="p-4 font-semibold text-green-600">
+// //                     ₹ {item.amount}
+// //                   </td>
+
+// //                   <td className="p-4">{item.source}</td>
+
+// //                   <td className="p-4 space-x-2">
+// //                     <button
+// //                       className="bg-blue-500 text-white px-3 py-1 rounded"
+// //                       onClick={() => {
+// //                         setEditingId(item._id);
+// //                         setTitle(item.title);
+// //                         setAmount(item.amount);
+// //                         setSource(item.source);
+// //                       }}
+// //                     >
+// //                       Edit
+// //                     </button>
+
+// //                     <button
+// //                       className="bg-red-500 text-white px-3 py-1 rounded"
+// //                       onClick={() => handleDelete(item._id)}
+// //                     >
+// //                       Delete
+// //                     </button>
+// //                   </td>
+// //                 </tr>
+// //               ))}
+// //             </tbody>
+// //           </table>
+// //         </div>
+// //       </div>
+// //     </div>
+// //   );
+// // }
+
+// // export default Income;
+// import { useEffect, useState } from "react";
+// import toast from "react-hot-toast";
+
+// import { getBudgets, setBudget, deleteBudget } from "../services/budgetService";
+
+// function Budget() {
+//   const [budgets, setBudgets] = useState([]);
+
+//   const [category, setCategory] = useState("Food");
+//   const [limit, setLimit] = useState("");
+
+//   useEffect(() => {
+//     fetchBudgets();
+//   }, []);
+
+//   const fetchBudgets = async () => {
+//     try {
+//       const data = await getBudgets();
+//       setBudgets(data);
+//     } catch (err) {
+//       toast.error("Failed to load budgets");
+//     }
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (!limit) {
+//       toast.error("Enter budget amount");
+//       return;
+//     }
+
+//     try {
+//       await setBudget({
+//         category,
+//         limit,
+//       });
+
+//       toast.success("Budget Saved");
+
+//       setLimit("");
+
+//       fetchBudgets();
+//     } catch (err) {
+//       toast.error("Something went wrong");
+//     }
+//   };
+
+//   const handleDelete = async (id) => {
+//     try {
+//       await deleteBudget(id);
+
+//       toast.success("Budget Deleted");
+
+//       fetchBudgets();
+//     } catch {
+//       toast.error("Something went wrong");
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-6xl mx-auto">
+//       <h1 className="text-4xl font-bold mb-8">🎯 Budget Manager</h1>
+
+//       {/* Form */}
+
+//       <div className="bg-white rounded-xl shadow-md p-6 mb-10">
+//         <form onSubmit={handleSubmit} className="grid md:grid-cols-3 gap-4">
+//           <select
+//             value={category}
+//             onChange={(e) => setCategory(e.target.value)}
+//             className="border rounded-lg p-3"
+//           >
+//             <option>Food</option>
+//             <option>Travel</option>
+//             <option>Shopping</option>
+//             <option>Bills</option>
+//             <option>Entertainment</option>
+//             <option>Other</option>
+//           </select>
+
+//           <input
+//             type="number"
+//             placeholder="Budget Limit"
+//             value={limit}
+//             onChange={(e) => setLimit(e.target.value)}
+//             className="border rounded-lg p-3"
+//           />
+
+//           <button className="bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+//             Save Budget
+//           </button>
+//         </form>
+//       </div>
+
+//       {/* Budget Cards */}
+
+//       <div className="grid md:grid-cols-2 gap-6">
+//         {budgets.length === 0 ? (
+//           <div className="text-gray-500">No Budgets Yet</div>
+//         ) : (
+//           budgets.map((budget) => {
+//             const percentage = (budget.spent / budget.limit) * 100;
+
+//             return (
+//               <div
+//                 key={budget._id}
+//                 className="bg-white rounded-xl shadow-md p-6"
+//               >
+//                 <div className="flex justify-between">
+//                   <h2 className="text-2xl font-bold">{budget.category}</h2>
+
+//                   <button
+//                     onClick={() => handleDelete(budget._id)}
+//                     className="text-red-500"
+//                   >
+//                     Delete
+//                   </button>
+//                 </div>
+
+//                 <div className="mt-5 space-y-2">
+//                   <p>
+//                     <b>Budget :</b> ₹{budget.limit}
+//                   </p>
+
+//                   <p>
+//                     <b>Spent :</b> ₹{budget.spent}
+//                   </p>
+
+//                   <p>
+//                     <b>Remaining :</b> ₹{budget.remaining}
+//                   </p>
+//                 </div>
+
+//                 <div className="w-full bg-gray-200 rounded-full h-4 mt-6">
+//                   <div
+//                     className={`h-4 rounded-full ${
+//                       percentage < 70
+//                         ? "bg-green-500"
+//                         : percentage < 100
+//                           ? "bg-yellow-500"
+//                           : "bg-red-500"
+//                     }`}
+//                     style={{
+//                       width: `${Math.min(percentage, 100)}%`,
+//                     }}
+//                   />
+//                 </div>
+
+//                 <p className="mt-3 text-sm">{percentage.toFixed(0)}% Used</p>
+
+//                 {budget.remaining < 0 && (
+//                   <p className="text-red-600 font-semibold mt-3">
+//                     ⚠ Budget Exceeded by ₹{Math.abs(budget.remaining)}
+//                   </p>
+//                 )}
+//               </div>
+//             );
+//           })
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Budget;
+// import { useEffect, useState } from "react";
+// import { getReportData } from "../services/reportService";
+
+// import {
+//   ResponsiveContainer,
+//   LineChart,
+//   Line,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   CartesianGrid,
+//   Legend,
+// } from "recharts";
+
+// function Reports() {
+//   const [report, setReport] = useState([]);
+
+//   useEffect(() => {
+//     fetchReport();
+//   }, []);
+
+//   const fetchReport = async () => {
+//     try {
+//       const data = await getReportData();
+//       setReport(data);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   };
+
+//   return (
+//     <div className="max-w-7xl mx-auto">
+//       <div className="grid  grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+//         <div className="bg-green-600 text-white rounded-xl p-6">
+//           <h3 className="text-lg">Highest Income Month</h3>
+
+//           <h1 className="text-3xl font-bold mt-2">
+//             ₹ {Math.max(...report.map((r) => r.income), 0)}
+//           </h1>
+//         </div>
+
+//         <div className="bg-red-600 text-white rounded-xl p-6">
+//           <h3 className="text-lg">Highest Expense Month</h3>
+
+//           <h1 className="text-3xl font-bold mt-2">
+//             ₹ {Math.max(...report.map((r) => r.expense), 0)}
+//           </h1>
+//         </div>
+
+//         <div className="bg-indigo-600 text-white rounded-xl p-6">
+//           <h3 className="text-lg">Highest Saving</h3>
+
+//           <h1 className="text-3xl font-bold mt-2">
+//             ₹ {Math.max(...report.map((r) => r.saving), 0)}
+//           </h1>
+//         </div>
+//       </div>
+//       <h1 className="text-4xl font-bold mb-8">📈 Financial Reports</h1>
+
+//       <div className="bg-white rounded-xl shadow-md p-8">
+//         <ResponsiveContainer width="100%" height={450}>
+//           <LineChart data={report}>
+//             <CartesianGrid strokeDasharray="3 3" />
+
+//             <XAxis dataKey="month" />
+
+//             <YAxis />
+//             <Tooltip
+//               contentStyle={{
+//                 borderRadius: "12px",
+//                 border: "none",
+//                 boxShadow: "0 5px 15px rgba(0,0,0,.15)",
+//               }}
+//             />
+
+//             <Legend />
+
+//             <Line
+//               type="monotone"
+//               dot={{ r: 5 }}
+//               activeDot={{ r: 8 }}
+//               dataKey="income"
+//               stroke="#16a34a"
+//               strokeWidth={3}
+//               animationDuration={1200}
+//             />
+
+//             <Line
+//               type="monotone"
+//               dot={{ r: 5 }}
+//               activeDot={{ r: 8 }}
+//               dataKey="expense"
+//               stroke="#dc2626"
+//               strokeWidth={3}
+//               animationDuration={1200}
+//             />
+
+//             <Line
+//               type="monotone"
+//               dot={{ r: 5 }}
+//               activeDot={{ r: 8 }}
+//               dataKey="saving"
+//               stroke="#4f46e5"
+//               strokeWidth={3}
+//               animationDuration={1200}
+//             />
+//           </LineChart>
+//         </ResponsiveContainer>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Reports;
+// import { useEffect, useState } from "react";
+// import API from "../services/api";
+
+// function Profile() {
+//   const [user, setUser] = useState(null);
+
+//   useEffect(() => {
+//     const fetchProfile = async () => {
+//       try {
+//         const response = await API.get("/auth/me", {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.getItem("token")}`,
+//           },
+//         });
+
+//         setUser(response.data);
+//       } catch (error) {
+//         console.log(error);
+//       }
+//     };
+
+//     fetchProfile();
+//   }, []);
+
+//   if (!user) {
+//     return <h2>Loading...</h2>;
+//   }
+
+//   return (
+//     <div className="max-w-2xl mx-auto">
+//       <h1 className="text-4xl font-bold mb-2">My Profile</h1>
+
+//       <p className="text-gray-500 mb-8">Manage your account information.</p>
+//       <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+//         <div className="flex flex-col items-center">
+//           <div className="w-28 h-28 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-5xl text-white font-bold shadow-lg">
+//             {user.name.charAt(0).toUpperCase()}
+//           </div>
+
+//           <h1 className="text-3xl font-bold mt-4">{user.name}</h1>
+
+//           <p className="text-gray-500">{user.email}</p>
+//         </div>
+
+//         <div className="mt-8 space-y-4">
+//           <div className="flex justify-between border-b pb-3">
+//             <span className="font-semibold">Name</span>
+
+//             <span>{user.name}</span>
+//           </div>
+
+//           <div className="flex justify-between border-b pb-3">
+//             <span className="font-semibold">Email</span>
+
+//             <span>{user.email}</span>
+//           </div>
+
+//           <div className="flex justify-between">
+//             <span className="font-semibold">Member Since</span>
+
+//             <span>{new Date(user.createdAt).toLocaleDateString()}</span>
+//           </div>
+//           <div className="flex justify-between border-t pt-3">
+//             <span className="font-semibold">Status</span>
+
+//             <span className="text-green-600 font-semibold">● Active</span>
+//           </div>
+//         </div>
+//       </div>
+//       <div className="grid grid-cols-3 gap-5 mt-8">
+//         <div className="bg-white shadow rounded-xl p-5 text-center">
+//           <h2 className="text-3xl font-bold text-indigo-600">✓</h2>
+//           <p className="text-gray-500 mt-2">Verified Account</p>
+//         </div>
+
+//         <div className="bg-white shadow rounded-xl p-5 text-center">
+//           <h2 className="text-3xl font-bold text-green-600">🔒</h2>
+//           <p className="text-gray-500 mt-2">JWT Protected</p>
+//         </div>
+
+//         <div className="bg-white shadow rounded-xl p-5 text-center">
+//           <h2 className="text-3xl font-bold text-orange-500">📊</h2>
+//           <p className="text-gray-500 mt-2">Expense Manager</p>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Profile;
+// import { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { register } from "../services/authService";
+// import toast from "react-hot-toast";
+
+// function Register() {
+//   const navigate = useNavigate();
+
+//   const [name, setName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       await register({ name, email, password });
+
+//       toast.success("Registration Successful 🎉");
+
+//       navigate("/");
+//     } catch (error) {
+//       toast.error(error.response?.data?.message || "Registration Failed");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 to-purple-600">
+//       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+//         <h1 className="text-4xl font-bold text-center mb-2">Create Account</h1>
+
+//         <p className="text-gray-500 text-center mb-8">
+//           Register to start managing your finances
+//         </p>
+
+//         <form onSubmit={handleSubmit} className="space-y-5">
+//           <input
+//             type="text"
+//             placeholder="Full Name"
+//             className="w-full border p-3 rounded-lg"
+//             value={name}
+//             onChange={(e) => setName(e.target.value)}
+//           />
+
+//           <input
+//             type="email"
+//             placeholder="Email"
+//             className="w-full border p-3 rounded-lg"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+
+//           <input
+//             type="password"
+//             placeholder="Password"
+//             className="w-full border p-3 rounded-lg"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+
+//           <button
+//             type="submit"
+//             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold"
+//           >
+//             Register
+//           </button>
+//         </form>
+
+//         <p className="text-center mt-6">
+//           Already have an account?{" "}
+//           <Link
+//             to="/"
+//             className="text-indigo-600 font-semibold hover:underline"
+//           >
+//             Login
+//           </Link>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Register;
+// import { useState } from "react";
+// import { Link, useNavigate } from "react-router-dom";
+// import { login } from "../services/authService";
+// import toast from "react-hot-toast";
+
+// function Login() {
+//   const navigate = useNavigate();
+
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const data = await login({ email, password });
+
+//       localStorage.setItem("token", data.token);
+//       localStorage.setItem("user", JSON.stringify(data));
+
+//       toast.success("Welcome Back 👋");
+
+//       navigate("/dashboard");
+//     } catch (error) {
+//       toast.error(error.response?.data?.message || "Login Failed");
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 to-purple-600">
+//       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
+//         <h1 className="text-4xl font-bold text-center mb-2">Welcome Back</h1>
+
+//         <p className="text-gray-500 text-center mb-8">
+//           Login to continue managing your finances
+//         </p>
+
+//         <form onSubmit={handleSubmit} className="space-y-5">
+//           <input
+//             type="email"
+//             placeholder="Email"
+//             className="w-full border p-3 rounded-lg"
+//             value={email}
+//             onChange={(e) => setEmail(e.target.value)}
+//           />
+
+//           <input
+//             type="password"
+//             placeholder="Password"
+//             className="w-full border p-3 rounded-lg"
+//             value={password}
+//             onChange={(e) => setPassword(e.target.value)}
+//           />
+
+//           <button
+//             type="submit"
+//             className="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold"
+//           >
+//             Login
+//           </button>
+//         </form>
+
+//         <p className="text-center mt-6">
+//           Don't have an account?{" "}
+//           <Link
+//             to="/register"
+//             className="text-indigo-600 font-semibold hover:underline"
+//           >
+//             Register
+//           </Link>
+//         </p>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Login;

@@ -35,6 +35,15 @@ app.use("/api/budget", budgetRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to FinTrack API 🚀");
 });
+app.use((err, req, res, next) => {
+  console.error("GLOBAL ERROR:");
+  console.error(err);
+
+  res.status(500).json({
+    message: err.message,
+    stack: err.stack,
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
